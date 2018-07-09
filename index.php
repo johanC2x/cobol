@@ -186,7 +186,7 @@ PRUEBAS => JP1CC105
                                             </td>
                                             <td>
                                                 <center>
-                                                    <a href="/php/diagrama.php?value=`+ title +`" target="_blank">
+                                                    <a href="/cobol/php/diagrama.php?value=`+ title +`" target="_blank">
                                                         ver diagrama
                                                     </a>
                                                 </center>
@@ -243,7 +243,7 @@ PRUEBAS => JP1CC105
                                             </td>
                                             <td>
                                                 <center>
-                                                    <a href="/php/diagrama.php?value=`+ title +`" target="_blank">
+                                                    <a href="/cobol/php/diagrama.php?value=`+ title +`" target="_blank">
                                                         ver diagrama
                                                     </a>
                                                 </center>
