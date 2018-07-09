@@ -1,0 +1,72 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : May 8, 2018, 9:18:07 PM
+    Author     : oooo
+*/
+@charset "utf-8";
+
+body{
+    margin: 15px;
+}
+header{
+    margin: 15px ;
+}
+#logotipo{
+    /*-webkit-transform: scale(0.2);*/
+    /*-webkit-transform: rotate(5deg);*/
+    /*-webkit-transform:skew(30deg);*/
+    -webkit-transition: -webkit-transform 1s ease 0.5s;
+}
+#logotipo:hover{
+    -webkit-transform: rotate(5deg);
+}
+#tituloPrincipal{
+    /*background-color: #ffff00;*/
+    text-align: center;
+    margin: 10px auto;
+    padding: 10px;
+    /*border: 1px solid #ff99cc;*/
+    /*border-radius: 15px;*/
+    /*box-shadow: #999 5px 5px 15px;*/
+    text-shadow: #878787 3px 3px 5px;
+    font-family: 'Slabo 27px', serif;
+    font-size: 40px;
+    /*background: -webkit-linear-gradient(left, #00F, #3FF);*/
+    /*background: -webkit-radial-gradient(center, circle, #00F, #3FF);*/
+    /*background: -webkit-radial-gradient(center, ellipse, #00F, #3FF);*/
+    color: #85c7b2;
+    /*outline: 2px dashed #00F;*/
+    /*outline-offset: 15px;*/
+}
+#navegadorPrincipal{
+    background-color: #ddd;
+    margin: 15px auto;
+    text-align: center;
+    font: bold 15px verdana;
+    padding-bottom: 2px;
+    padding-left: 12px;
+    padding-right: 2px;
+    padding-top: 2px;
+    color: #4b4b4b;
+}
+.idPrincipal{
+    /*background-color: #66ff66;*/
+    margin: 15px;
+    padding-bottom: 2px;
+    padding-left: 12px;
+    padding-right: 2px;
+    padding-top: 2px;
+}
+#buscador{
+    text-align: center;
+}
+footer{
+    margin: 15px;
+}
+li{
+    display: inline;
+}

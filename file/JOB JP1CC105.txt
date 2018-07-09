@@ -1,0 +1,7 @@
+//JP1CC105 JOB (101, 'MI JCL'),MSGLEVEL=(2,1) , CLASS=A,
+//                              MSGCLASS=H,NOTIFY=&SYSUID
+//*
+//**=======================================================*
+//** PASO01 - COMPRUEBA SI EL FICHERO TIENE DATOS O ESTÁ VACIO
+//**=======================================================*
+//VCPP1105 EXEC VCPP1105
