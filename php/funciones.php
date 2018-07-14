@@ -129,6 +129,25 @@
                 echo json_encode(["success" => false]);
             }
             break;
+        //LOGIN DE ACCESO
+        case 4:
+            $user = (isset($_POST["user"]) && !empty($_POST["user"])) ? $_POST["user"] : false;
+            $pass = (isset($_POST["pass"]) && !empty($_POST["pass"])) ? $_POST["pass"] : false;
+            if($user && $pass){
+                $user = obtenerUsuario($user,$pass);
+                if(!empty($user)){
+                    $_SESSION['user'] = $user;
+                    echo json_encode(["success" => true]);
+                }else{
+                    echo json_encode(["success" => false]);
+                }
+            }else{
+                echo json_encode(["success" => false]);
+            }
+            break;
+        case 5:
+            unset($_SESSION['user']);
+            break;
     }
 
 ?>

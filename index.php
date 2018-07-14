@@ -7,6 +7,12 @@ and open the template in the editor.
 PRUEBAS => JP1CC105
 
 -->
+<?php
+    if(!isset($_SESSION['user']) || empty($_SESSION['user'])){
+        $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+        header('Location: '.$actual_link."/login.php");
+    }
+?>
 <html>
     <head>
         <title>INFODOC</title>
@@ -17,13 +23,34 @@ PRUEBAS => JP1CC105
         <link rel="stylesheet" href="./css/font-awesome.min.css">
         <link rel="stylesheet" href="./css/jquery.orgchart.css">
         <link rel="stylesheet" href="./css/style.css">
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
     </head>
     <body>
         <header>
             <section id="tituloPrincipal">
                 <h1>INFODOC</h1>
             </section>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a id="btn_logout" href="javascript:void(0);">
+                                    Cerrar Sesión
+                                </a>
+                            </li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div><!--/.container-fluid -->
+            </nav>
             <nav id="navegadorPrincipal">
                 <ul>
                     <li><input type="checkbox" id="jobs">Jobs</li>
@@ -145,7 +172,7 @@ PRUEBAS => JP1CC105
 
             $("#lk_diagrama").hide();
             $("#lk_diagrama_child").hide();
-            
+            $("#table").hide();
 
             //OBTENER LISTADO DE JOBS
             if(document.getElementById("btn_buscar") !== null){
@@ -153,8 +180,26 @@ PRUEBAS => JP1CC105
                     obtenerListadoJobs();
                 };
             }
-
+            //CERRAR SESIÓN
+            if(document.getElementById("btn_logout") !== null){
+                document.getElementById("btn_logout").onclick = function () {
+                    logOut();
+                };
+            }
         });
+
+        function logOut(){
+            $.ajax({
+                type:"POST",
+                url:"./php/funciones.php",
+                data:{
+                    op:5
+                },
+                success:function(response){
+                    window.location.reload();
+                }
+            });
+        }
 
         function obtenerListadoPorJob(value){
             $.ajax({
@@ -186,7 +231,7 @@ PRUEBAS => JP1CC105
                                             </td>
                                             <td>
                                                 <center>
-                                                    <a href="/cobol/php/diagrama.php?value=`+ title +`" target="_blank">
+                                                    <a href="/php/diagrama.php?value=`+ title +`" target="_blank">
                                                         ver diagrama
                                                     </a>
                                                 </center>
@@ -212,6 +257,30 @@ PRUEBAS => JP1CC105
 
         function obtenerListadoJobs(){
             var name = $("#name").val();
+            var ck_jobs = $("#jobs").prop("checked");
+            var ck_proc = $("#procedimientos").prop("checked");
+            var ck_ctl = $("#ctl").prop("checked");
+            var ck_prog = $("#programas").prop("checked");
+            if(name !== ''){
+                if(ck_jobs){
+                    obtenerListadoPorJobs(name);
+                }else if(ck_proc){
+                    
+                }else if(ck_ctl){
+                
+                }else if(ck_prog){
+
+                }else{
+                    $("#msg").html("Es necesario seleccionar una opción");
+                    $("#table").hide();
+                }
+            }else{
+                $("#msg").html("Es necesario seleccionar una opción");
+                $("#table").hide();
+            }
+        }
+
+        function obtenerListadoPorJobs(name){
             $.ajax({
                 type:"POST",
                 url:"./php/funciones.php",
@@ -227,6 +296,8 @@ PRUEBAS => JP1CC105
                     var result = JSON.parse(response);
                     if(result.success){
                         if(result.data.length > 0){
+                            $("#table").show();
+                            $("#msg").html("");
                             var tbody = '';
                             $("#table tbody").empty();
                             for(var i=0;i < result.data.length;i++){
@@ -243,7 +314,7 @@ PRUEBAS => JP1CC105
                                             </td>
                                             <td>
                                                 <center>
-                                                    <a href="/cobol/php/diagrama.php?value=`+ title +`" target="_blank">
+                                                    <a href="/php/diagrama.php?value=`+ title +`" target="_blank">
                                                         ver diagrama
                                                     </a>
                                                 </center>
@@ -278,6 +349,10 @@ PRUEBAS => JP1CC105
                         }
                     }else if(result.hasOwnProperty("msg")){
                         $("#msg").html(result.msg);
+                        $("#table").hide();
+                    }else{
+                        $("#msg").html("No se encontraron resultados");
+                        $("#table").hide();
                     }
                 }
             });

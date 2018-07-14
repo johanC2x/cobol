@@ -2,6 +2,6 @@
 //                              MSGCLASS=H,NOTIFY=&SYSUID
 //*
 //**=======================================================*
-//** PASO01 - COMPRUEBA SI EL FICHERO TIENE DATOS O ESTÁ VACIO
+//** PASO01 - COMPRUEBA SI EL FICHERO TIENE DATOS O ESTï¿½ VACIO
 //**=======================================================*
 //VCPP1105 EXEC VCPP1105
