@@ -247,15 +247,10 @@ CON JOB EN EL
             $("#lk_diagrama_child").hide();
             
             hideTables();
-
-            var url = '';
-            var user = localStorage.getItem("user");
-            if(user === undefined || user === '' || user === null){
-                if(server){
-                    url = window.location.origin + '/cobol/login.php';
-                }else{
-                    url = window.location.origin + '/login.php';
-                }
+            
+            var path = (window.location.origin.search("54") !== undefined && window.location.origin.search("54") !== -1) ? "/cobol" : "";
+            var url = window.location.origin + path + '/login.php';
+            if(localStorage.getItem("user") === undefined || localStorage.getItem("user") === '' || localStorage.getItem("user") === null){
                 window.location.replace(url);
             }
 
