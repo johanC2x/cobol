@@ -8,9 +8,14 @@ PRUEBAS => JP1CC105
 
 -->
 <?php
+    $server = true;
     if(!isset($_SESSION['user']) || empty($_SESSION['user'])){
         $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
-        header('Location: '.$actual_link."/login.php");
+        if($server){
+            header('Location: '.$actual_link."/cobol/login.php");
+        }else{
+            header('Location: '.$actual_link."/login.php");
+        }
     }
 ?>
 <html>
