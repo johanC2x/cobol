@@ -99,8 +99,27 @@ CON JOB EN EL
                 <div class="col-md-12">
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
-                        <!-- TABLE FOR JOBS -->
+                        <!-- TABLE FOR PROCEDIMIENTO -->
                         <table id="table" class="table table-striped table-border table-hover" >
+                            <thead>
+                                <tr>
+                                    <th><center>Nro.</center></th>
+                                    <th><center>Job</center></th>
+                                    <th><center>PROCEDIMIENTO</center></th>
+                                    <th colspan="2"><center>Acción</center></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="3">
+                                        NO SE ENCONTRARON RESULTADOS
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- TABLE FOR JOBS -->
+                        <table id="table_job" class="table table-striped table-border table-hover" >
                             <thead>
                                 <tr>
                                     <th><center>Nro.</center></th>
@@ -256,6 +275,7 @@ CON JOB EN EL
 
         function hideTables(){
             $("#table").hide();
+            $("#table_job").hide();
             $("#table_ctl").hide();
             $("#table_prg").hide();
         }
@@ -336,7 +356,7 @@ CON JOB EN EL
                 if(ck_jobs){
                     obtenerListadoPorJobs(name);
                 }else if(ck_proc){
-                    
+                    obtenerListadoPorProc(name);
                 }else if(ck_ctl){
                     obtenerListadoPorCtl(name);
                 }else if(ck_prog){
@@ -478,6 +498,62 @@ CON JOB EN EL
                 type:"POST",
                 url:"./php/funciones.php",
                 data:{
+                    op:8,
+                    name:name
+                },
+                beforeSend: function() {
+                    $("#chart-container").empty();
+                    $("#msg").html('<img src="'+ path_img +'/loader.gif" width="20px" />');
+                },
+                success:function(response){
+                    var result = JSON.parse(response);
+                    var path = (window.location.origin.search("54") !== undefined && window.location.origin.search("54") !== -1) ? "/cobol/php" : "/php";
+                    if(result.success){
+                        if(result.data.length > 0){
+                            $("#table_job").show();
+                            $("#msg").html("");
+                            var tbody = '';
+                            $("#table_job tbody").empty();
+                            for(var i=0;i < result.data.length;i++){
+                                var title = result.data[i].name;
+                                tbody += `<tr>
+                                            <td><center>`+ (i + 1) +`</center></td>
+                                            <td><center>`+ title +`</center></td>
+                                            <td>
+                                                <center>
+                                                    <a href="javascript:void(0);" onclick="obtenerListadoPorJob('`+ title +`');" >
+                                                        ver
+                                                    </a>
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <a href="`+ path +`/diagrama.php?value=`+ title +`" target="_blank">
+                                                        ver diagrama
+                                                    </a>
+                                                </center>
+                                            </td>
+                                          </tr>`;
+                            }
+                            $("#table_job tbody").append(tbody);
+                            $("#msg").html('');
+                        }
+                    }else if(result.hasOwnProperty("msg")){
+                        $("#msg").html(result.msg);
+                        $("#table_job").hide();
+                    }else{
+                        $("#msg").html("No se encontraron resultados");
+                        $("#table_job").hide();
+                    }
+                }
+            });
+        }
+
+        function obtenerListadoPorProc(name){
+            $.ajax({
+                type:"POST",
+                url:"./php/funciones.php",
+                data:{
                     op:3,
                     name:name
                 },
@@ -496,9 +572,11 @@ CON JOB EN EL
                             $("#table tbody").empty();
                             for(var i=0;i < result.data.length;i++){
                                 var title = result.data[i].name;
+                                var name_proc = result.data[i].name_pro;
                                 tbody += `<tr>
                                             <td><center>`+ (i + 1) +`</center></td>
                                             <td><center>`+ title +`</center></td>
+                                            <td><center>`+ name_proc +`</center></td>
                                             <td>
                                                 <center>
                                                     <a href="javascript:void(0);" onclick="obtenerListadoPorJob('`+ title +`');" >

@@ -113,7 +113,8 @@
                             if(!empty($pos_file)){
                                 $name = str_replace(" ","",str_replace("JOB","",str_replace(".txt","",$file)));
                                 $array[] = array(
-                                    "name" => $name
+                                    "name" => $name,
+                                    "name_pro" => $value
                                 );
                             }
                         }
@@ -278,6 +279,36 @@
                 }
                 if(sizeof($array) > 0){
                     echo json_encode(["success" => true,"data" => $response]);
+                }else{
+                    echo json_encode(["success" => false]);
+                }
+            }else{
+                echo json_encode(["success" => false]);
+            }
+            break;
+        case 8:
+            $list = array();
+            $name_job = "";
+            $value = (isset($_POST["name"]) && !empty($_POST["name"])) ? strtoupper($_POST["name"]) : false;
+
+            $array = [];
+            $response = [];
+            $name_file = "";
+            $directorio = '../file/job';
+            $ficheros  = scandir($directorio);
+            
+            if(sizeof($ficheros) > 0){
+                foreach($ficheros as $file){
+                    $name = str_replace(" ","",str_replace("JOB","",str_replace(".txt","",$file)));
+                    if($name === $value){
+                        $array[] = array(
+                            "name" => $name
+                        );
+                    }
+                }
+                fclose($content);
+                if(sizeof($array) > 0){
+                    echo json_encode(["success" => true,"data" => $array]);
                 }else{
                     echo json_encode(["success" => false]);
                 }
