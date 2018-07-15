@@ -136,8 +136,8 @@
             if($user && $pass){
                 $user = obtenerUsuario($user,$pass);
                 if(!empty($user)){
-                    $_SESSION['user'] = $user;
-                    echo json_encode(["success" => true]);
+                    //$_SESSION['user'] = $user;
+                    echo json_encode(["success" => true,"data" => $user]);
                 }else{
                     echo json_encode(["success" => false]);
                 }

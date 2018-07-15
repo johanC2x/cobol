@@ -8,6 +8,7 @@ PRUEBAS => JP1CC105
 
 -->
 <?php
+/*
     $server = true;
     if(!isset($_SESSION['user']) || empty($_SESSION['user'])){
         $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
@@ -17,6 +18,7 @@ PRUEBAS => JP1CC105
             header('Location: '.$actual_link."/login.php");
         }
     }
+*/
 ?>
 <html>
     <head>
@@ -178,6 +180,18 @@ PRUEBAS => JP1CC105
             $("#lk_diagrama").hide();
             $("#lk_diagrama_child").hide();
             $("#table").hide();
+            
+            var url = '';
+            var server = true;
+            var user = localStorage.getItem("user");
+            if(user === undefined || user === '' || user === null){
+                if(server){
+                    url = window.location.origin + '/cobol/login.php';
+                }else{
+                    url = window.location.origin + '/login.php';
+                }
+                window.location.replace(url);
+            }
 
             //OBTENER LISTADO DE JOBS
             if(document.getElementById("btn_buscar") !== null){
@@ -194,6 +208,18 @@ PRUEBAS => JP1CC105
         });
 
         function logOut(){
+            var url = '';
+            var server = true;
+            localStorage.removeItem("user");
+            if(localStorage.getItem("user") === undefined || localStorage.getItem("user") === '' || localStorage.getItem("user") === null){
+                if(server){
+                    url = window.location.origin + '/cobol/index.php';
+                }else{
+                    url = window.location.origin + '/index.php';
+                }
+                window.location.replace(url);
+            }
+            /*
             $.ajax({
                 type:"POST",
                 url:"./php/funciones.php",
@@ -204,6 +230,7 @@ PRUEBAS => JP1CC105
                     window.location.reload();
                 }
             });
+            */
         }
 
         function obtenerListadoPorJob(value){

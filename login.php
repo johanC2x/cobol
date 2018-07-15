@@ -61,7 +61,6 @@
                     },
                     success: function (response) {
                         var data = JSON.parse(response);
-                        console.log(data);
                         var server = true;
                         if(data.success){
                             var url = '';
@@ -70,8 +69,9 @@
                             }else{
                                 url = window.location.origin + '/index.php';
                             }
-
-                            //window.location.replace(url);
+                            var user = JSON.stringify(data.data);
+                            localStorage.setItem("user", user);
+                            window.location.replace(url);
                         }
                     }
                 });
