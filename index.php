@@ -6,6 +6,10 @@ and open the template in the editor.
 
 PRUEBAS => JP1CC105
 
+CON CTL EN EL PROCEDIMIENTO
+
+CON JOB EN EL 
+
 -->
 <?php
 /*
@@ -60,10 +64,10 @@ PRUEBAS => JP1CC105
             </nav>
             <nav id="navegadorPrincipal">
                 <ul>
-                    <li><input type="checkbox" id="jobs">Jobs</li>
-                    <li><input type="checkbox" id="procedimientos">Procedimientos</li>
-                    <li><input type="checkbox" id="ctl">ctl</li>
-                    <li><input type="checkbox" id="programas">Programas</li>
+                    <li><input type="checkbox" id="jobs" onchange="changeCkJob();">Jobs</li>
+                    <li><input type="checkbox" id="procedimientos" onchange="changeCkProc();">Procedimientos</li>
+                    <li><input type="checkbox" id="ctl" onchange="changeCkCtl();">ctl</li>
+                    <li><input type="checkbox" id="programas" onchange="changeCkProg();">Programas</li>
                 </ul>
             </nav>
         </header>
@@ -388,6 +392,30 @@ PRUEBAS => JP1CC105
                     }
                 }
             });
+        }
+
+        function changeCkJob(){
+            $("#procedimientos").prop("checked",false);
+            $("#ctl").prop("checked",false);
+            $("#programas").prop("checked",false);
+        }
+
+        function changeCkProc(){
+            $("#jobs").prop("checked",false);
+            $("#ctl").prop("checked",false);
+            $("#programas").prop("checked",false);
+        }
+
+        function changeCkCtl(){
+            $("#jobs").prop("checked",false);
+            $("#procedimientos").prop("checked",false);
+            $("#programas").prop("checked",false);
+        }
+
+        function changeCkProg(){
+            $("#jobs").prop("checked",false);
+            $("#procedimientos").prop("checked",false);
+            $("#ctl").prop("checked",false);
         }
 
     </script>
