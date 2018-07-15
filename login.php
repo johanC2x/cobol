@@ -40,6 +40,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
         <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
         <script>
+            var server = false;
             $(document).on("ready",function(){
                 if(document.getElementById("btn_login") !== null){
                     document.getElementById("btn_login").onclick = function () {
@@ -61,7 +62,6 @@
                     },
                     success: function (response) {
                         var data = JSON.parse(response);
-                        var server = true;
                         if(data.success){
                             var url = '';
                             if(server){

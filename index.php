@@ -6,7 +6,7 @@ and open the template in the editor.
 
 PRUEBAS => JP1CC105
 
-CON CTL EN EL PROCEDIMIENTO
+CON CTL EN EL PROCEDIMIENTO OBTENIENDO EL PRO OBTENIENDO EL NOMBRE BUSCAR EN JOBS
 
 CON JOB EN EL 
 
@@ -99,6 +99,7 @@ CON JOB EN EL
                 <div class="col-md-12">
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
+                        <!-- TABLE FOR JOBS -->
                         <table id="table" class="table table-striped table-border table-hover" >
                             <thead>
                                 <tr>
@@ -110,6 +111,46 @@ CON JOB EN EL
                             <tbody>
                                 <tr>
                                     <td colspan="3">
+                                        NO SE ENCONTRARON RESULTADOS
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- TABLE FOR CTL -->
+                        <table id="table_ctl" class="table table-striped table-border table-hover" >
+                            <thead>
+                                <tr>
+                                    <th><center>Nro.</center></th>
+                                    <th><center>Job</center></th>
+                                    <th><center>PROCEDIMIENTO</center></th>
+                                    <th><center>CTL</center></th>
+                                    <th colspan="2"><center>Acción</center></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5">
+                                        NO SE ENCONTRARON RESULTADOS
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- TABLE FOR PRG -->
+                        <table id="table_prg" class="table table-striped table-border table-hover" >
+                            <thead>
+                                <tr>
+                                    <th><center>Nro.</center></th>
+                                    <th><center>Job</center></th>
+                                    <th><center>PROCEDIMIENTO</center></th>
+                                    <th><center>PROGRAMA</center></th>
+                                    <th colspan="2"><center>Acción</center></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5">
                                         NO SE ENCONTRARON RESULTADOS
                                     </td>
                                 </tr>
@@ -174,8 +215,10 @@ CON JOB EN EL
         <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="./js/jquery.orgchart.js"></script>
         <script type="text/javascript">
+        var server = false;
         var parent = [];
         var children = [];
+        var path_img = (window.location.origin.search("54") !== undefined && window.location.origin.search("54") !== -1) ? "/cobol/img" : "/img";
         $(document).ready(function(){
             var list = {};
             var tbody = '';
@@ -183,10 +226,10 @@ CON JOB EN EL
 
             $("#lk_diagrama").hide();
             $("#lk_diagrama_child").hide();
-            $("#table").hide();
             
+            hideTables();
+
             var url = '';
-            var server = true;
             var user = localStorage.getItem("user");
             if(user === undefined || user === '' || user === null){
                 if(server){
@@ -211,9 +254,14 @@ CON JOB EN EL
             }
         });
 
+        function hideTables(){
+            $("#table").hide();
+            $("#table_ctl").hide();
+            $("#table_prg").hide();
+        }
+
         function logOut(){
             var url = '';
-            var server = true;
             localStorage.removeItem("user");
             if(localStorage.getItem("user") === undefined || localStorage.getItem("user") === '' || localStorage.getItem("user") === null){
                 if(server){
@@ -238,6 +286,7 @@ CON JOB EN EL
         }
 
         function obtenerListadoPorJob(value){
+            hideTables();
             $.ajax({
                 type:"POST",
                 url:"./php/funciones.php",
@@ -249,8 +298,9 @@ CON JOB EN EL
                 success:function(response){
                     var result = JSON.parse(response);
                     if(result.success){
-                        $("#job_name").text(value);
                         var tbody = '';
+                        var path = (window.location.origin.search("54") !== undefined && window.location.origin.search("54") !== -1) ? "/cobol/php" : "/php";
+                        $("#job_name").text(value);
                         $("#table_child tbody").empty();
                         if(result.data.children.length > 0){
                             for(var i=0;i < result.data.children.length;i++){
@@ -267,7 +317,7 @@ CON JOB EN EL
                                             </td>
                                             <td>
                                                 <center>
-                                                    <a href="/cobol/php/diagrama.php?value=`+ title +`" target="_blank">
+                                                    <a href=`+ path +`"/diagrama.php?value=`+ title +`" target="_blank">
                                                         ver diagrama
                                                     </a>
                                                 </center>
@@ -292,6 +342,7 @@ CON JOB EN EL
         }
 
         function obtenerListadoJobs(){
+            hideTables();
             var name = $("#name").val();
             var ck_jobs = $("#jobs").prop("checked");
             var ck_proc = $("#procedimientos").prop("checked");
@@ -303,9 +354,9 @@ CON JOB EN EL
                 }else if(ck_proc){
                     
                 }else if(ck_ctl){
-                
+                    obtenerListadoPorCtl(name);
                 }else if(ck_prog){
-
+                    obtenerListadoPorPrg(name);
                 }else{
                     $("#msg").html("Es necesario seleccionar una opción");
                     $("#table").hide();
@@ -314,6 +365,128 @@ CON JOB EN EL
                 $("#msg").html("Es necesario seleccionar una opción");
                 $("#table").hide();
             }
+        }
+
+        function obtenerListadoPorPrg(name){
+            hideTables();
+            $.ajax({
+                type:"POST",
+                url:"./php/funciones.php",
+                data:{
+                    op:7,
+                    name:name
+                },
+                beforeSend: function() {
+                    $("#chart-container").empty();
+                    $("#msg").html('<img src="'+ path_img +'/loader.gif" width="20px" />');
+                },
+                success:function(response){
+                    var result = JSON.parse(response);
+                    var path = (window.location.origin.search("54") !== undefined && window.location.origin.search("54") !== -1) ? "/cobol/php" : "/php";
+                    if(result.success){
+                        if(result.data.length > 0){
+                            $("#msg").html("");
+                            var tbody = '';
+                            $("#table_prg tbody").empty();
+                            for(var i=0;i < result.data.length;i++){
+                                var prg = result.data[i].name_prg;
+                                var proc = result.data[i].name_pro;
+                                var title = result.data[i].name_job;
+                                tbody += `<tr>
+                                            <td><center>`+ (i + 1) +`</center></td>                                            
+                                            <td><center>`+ title +`</center></td>
+                                            <td><center>`+ proc +`</center></td>
+                                            <td><center>`+ prg +`</center></td>
+                                            <td>
+                                                <center>
+                                                    <a href="javascript:void(0);" onclick="obtenerListadoPorJob('`+ title +`');" >
+                                                        ver
+                                                    </a>
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <a href="`+ path +`/diagrama.php?value=`+ title +`" target="_blank">
+                                                        ver diagrama
+                                                    </a>
+                                                </center>
+                                            </td>
+                                          </tr>`;
+                            }
+                            $("#table_prg tbody").append(tbody);
+                            $("#table_prg").show();
+                            $("#msg").html('');
+                        }
+                    }else if(result.hasOwnProperty("msg")){
+                        $("#msg").html(result.msg);
+                        $("#table_prg").hide();
+                    }else{
+                        $("#msg").html("No se encontraron resultados");
+                        $("#table_prg").hide();
+                    }
+                }
+            });
+        }
+
+        function obtenerListadoPorCtl(name){
+            hideTables();
+            $.ajax({
+                type:"POST",
+                url:"./php/funciones.php",
+                data:{
+                    op:6,
+                    name:name
+                },
+                beforeSend: function() {
+                    $("#chart-container").empty();
+                    $("#msg").html('<img src="'+ path_img +'/loader.gif" width="20px" />');
+                },
+                success:function(response){
+                    var result = JSON.parse(response);
+                    var path = (window.location.origin.search("54") !== undefined && window.location.origin.search("54") !== -1) ? "/cobol/php" : "/php";
+                    if(result.success){
+                        if(result.data.length > 0){
+                            $("#msg").html("");
+                            var tbody = '';
+                            $("#table_ctl tbody").empty();
+                            for(var i=0;i < result.data.length;i++){
+                                var ctl = result.data[i].name_ctl;
+                                var proc = result.data[i].name_pro;
+                                var title = result.data[i].name_job;
+                                tbody += `<tr>
+                                            <td><center>`+ (i + 1) +`</center></td>                                            
+                                            <td><center>`+ title +`</center></td>
+                                            <td><center>`+ proc +`</center></td>
+                                            <td><center>`+ ctl +`</center></td>
+                                            <td>
+                                                <center>
+                                                    <a href="javascript:void(0);" onclick="obtenerListadoPorJob('`+ title +`');" >
+                                                        ver
+                                                    </a>
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <a href="`+ path +`/diagrama.php?value=`+ title +`" target="_blank">
+                                                        ver diagrama
+                                                    </a>
+                                                </center>
+                                            </td>
+                                          </tr>`;
+                            }
+                            $("#table_ctl tbody").append(tbody);
+                            $("#table_ctl").show();
+                            $("#msg").html('');
+                        }
+                    }else if(result.hasOwnProperty("msg")){
+                        $("#msg").html(result.msg);
+                        $("#table_ctl").hide();
+                    }else{
+                        $("#msg").html("No se encontraron resultados");
+                        $("#table_ctl").hide();
+                    }
+                }
+            });
         }
 
         function obtenerListadoPorJobs(name){
@@ -326,10 +499,11 @@ CON JOB EN EL
                 },
                 beforeSend: function() {
                     $("#chart-container").empty();
-                    $("#msg").html('<img src="/img/loader.gif" width="20px" />');
+                    $("#msg").html('<img src="'+ path_img +'/loader.gif" width="20px" />');
                 },
                 success:function(response){
                     var result = JSON.parse(response);
+                    var path = (window.location.origin.search("54") !== undefined && window.location.origin.search("54") !== -1) ? "/cobol/php" : "/php";
                     if(result.success){
                         if(result.data.length > 0){
                             $("#table").show();
@@ -350,36 +524,13 @@ CON JOB EN EL
                                             </td>
                                             <td>
                                                 <center>
-                                                    <a href="/cobol/php/diagrama.php?value=`+ title +`" target="_blank">
+                                                    <a href="`+ path +`/diagrama.php?value=`+ title +`" target="_blank">
                                                         ver diagrama
                                                     </a>
                                                 </center>
                                             </td>
                                           </tr>`;
                             }
-                            /*
-                            for(var i=0;i < result.data.children.length;i++){
-                                var title = result.data.children[i].title;
-                                tbody += `<tr>
-                                            <td><center>`+ i +`</center></td>
-                                            <td><center>`+ title +`</center></td>
-                                            <td>
-                                                <center>
-                                                    <a href="javascript:void(0);" onclick="obtenerListadoPorJob('`+ title +`');" >
-                                                        ver
-                                                    </a>
-                                                </center>
-                                            </td>
-                                            <td>
-                                                <center>
-                                                    <a href="/php/diagrama.php?value=`+ title +`" target="_blank">
-                                                        ver diagrama
-                                                    </a>
-                                                </center>
-                                            </td>
-                                          </tr>`;
-                            }
-                            */
                             $("#table tbody").append(tbody);
                             $("#msg").html('');
                         }
