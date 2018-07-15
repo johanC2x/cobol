@@ -62,13 +62,9 @@
                     },
                     success: function (response) {
                         var data = JSON.parse(response);
+                        var path = (window.location.origin.search("54") !== undefined && window.location.origin.search("54") !== -1) ? "/cobol" : "/";
                         if(data.success){
-                            var url = '';
-                            if(server){
-                                url = window.location.origin + '/cobol/index.php';
-                            }else{
-                                url = window.location.origin + '/index.php';
-                            }
+                            var url = window.location.origin + path + '/index.php';
                             var user = JSON.stringify(data.data);
                             localStorage.setItem("user", user);
                             window.location.replace(url);

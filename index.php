@@ -261,28 +261,12 @@ CON JOB EN EL
         }
 
         function logOut(){
-            var url = '';
             localStorage.removeItem("user");
+            var path = (window.location.origin.search("54") !== undefined && window.location.origin.search("54") !== -1) ? "/cobol" : "/";
+            var url = window.location.origin + path + '/index.php';
             if(localStorage.getItem("user") === undefined || localStorage.getItem("user") === '' || localStorage.getItem("user") === null){
-                if(server){
-                    url = window.location.origin + '/cobol/index.php';
-                }else{
-                    url = window.location.origin + '/index.php';
-                }
                 window.location.replace(url);
             }
-            /*
-            $.ajax({
-                type:"POST",
-                url:"./php/funciones.php",
-                data:{
-                    op:5
-                },
-                success:function(response){
-                    window.location.reload();
-                }
-            });
-            */
         }
 
         function obtenerListadoPorJob(value){
