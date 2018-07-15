@@ -263,7 +263,7 @@ CON JOB EN EL
         function logOut(){
             localStorage.removeItem("user");
             var path = (window.location.origin.search("54") !== undefined && window.location.origin.search("54") !== -1) ? "/cobol" : "/";
-            var url = window.location.origin + path + '/index.php';
+            var url = window.location.origin + path + '/login.php';
             if(localStorage.getItem("user") === undefined || localStorage.getItem("user") === '' || localStorage.getItem("user") === null){
                 window.location.replace(url);
             }
