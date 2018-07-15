@@ -57,12 +57,18 @@
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdn.rawgit.com/stefanpenner/es6-promise/master/dist/es6-promise.auto.min.js"></script>
         <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        
+        <script type="text/javascript" src="https://cdn.rawgit.com/stefanpenner/es6-promise/master/dist/es6-promise.auto.min.js"></script>
+        <script type="text/javascript" src="../js/html2canvas.min.js"></script>
+        <script type="text/javascript" src="../js/jspdf.min.js"></script>
         <script type="text/javascript" src="../js/jquery.orgchart.js"></script>
 
         <script>
             $(document).ready(function(){
                 var list = {};
                 var result = JSON.parse('<?php echo json_encode(["success" => true,"data" => $list]); ?>');
+                console.log(result);
+                
                 if(result.success){
                     $("#chart-container").empty();
                     var data = result.data;
@@ -70,15 +76,15 @@
                     if(list_children.length > 0){
                         $("#msg").html('');
                         list.name = "JOB"
-                        list.title = $("#name").val();
+                        list.title = "<?php echo $value; ?>";
                         list.children = list_children;
                         $('#chart-container').orgchart({
                             'data' : list,
                             'visibleLevel': 5,
                             'nodeContent': 'title',
                             //'verticalLevel': 2,
-                            'exportButton': false,
-                            'exportFilename': 'MyOrgChart'
+                            'exportButton': true,
+                            'exportFilename': 'diagrama'
                         });
                     }
                 }

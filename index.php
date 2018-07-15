@@ -290,7 +290,6 @@ CON JOB EN EL
         }
 
         function obtenerListadoPorJob(value){
-            hideTables();
             $.ajax({
                 type:"POST",
                 url:"./php/funciones.php",
@@ -321,7 +320,7 @@ CON JOB EN EL
                                             </td>
                                             <td>
                                                 <center>
-                                                    <a href=`+ path +`"/diagrama.php?value=`+ title +`" target="_blank">
+                                                    <a href=`+ path +`/diagrama.php?value=`+ title +` target="_blank">
                                                         ver diagrama
                                                     </a>
                                                 </center>
