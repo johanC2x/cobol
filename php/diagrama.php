@@ -2,9 +2,19 @@
     require_once('./utils.php');
 
     $list = array();
+    $list_parent = array();
     $value = (isset($_GET["value"]) && !empty($_GET["value"])) ? $_GET["value"] : false;
     if($value){
         $list = obtenerLista($value);
+        if(sizeof($list["parent"]) > 0){
+            foreach($list["parent"] as $key => $parent){
+                $list_parent["children"][$key] = array(
+                    "name" => "JOB",
+                    "title" => $parent,
+                );
+            }
+        }
+
         if(sizeof($list["children"]) > 0){
             foreach($list["children"] as $key => $children){
                 $list_children = obtenerListaChildren($children);
@@ -27,6 +37,9 @@
                 }
             }
         }
+        // echo "<pre/>";print_r($list_parent)."\n";
+        // echo "<pre/>";print_r($list);
+        // exit();
     }
 ?>
 
@@ -50,6 +63,8 @@
             </section>
         </header>
         <section id="buscador">
+            <div id="chart-parent-container"></div>
+            <br/>
             <div id="chart-container"></div>
         </section>
         <footer>
@@ -66,9 +81,9 @@
         <script>
             $(document).ready(function(){
                 var list = {};
+                var list_parent = {};
                 var result = JSON.parse('<?php echo json_encode(["success" => true,"data" => $list]); ?>');
-                console.log(result);
-                
+                var result_parent = JSON.parse('<?php echo json_encode(["success" => true,"data" => $list_parent]); ?>');
                 if(result.success){
                     $("#chart-container").empty();
                     var data = result.data;
@@ -80,6 +95,25 @@
                         list.children = list_children;
                         $('#chart-container').orgchart({
                             'data' : list,
+                            'visibleLevel': 5,
+                            'nodeContent': 'title',
+                            //'verticalLevel': 2,
+                            'exportButton': true,
+                            'exportFilename': 'diagrama'
+                        });
+                    }
+                }
+                if(result_parent.success){
+                    $("#chart-parent-container").empty();
+                    var data_parent = result_parent.data;
+                    var list_children = data_parent.children;
+                    if(list_children.length > 0){
+                        $("#msg").html('');
+                        list_parent.name = "JOB"
+                        list_parent.title = "<?php echo $value; ?>";
+                        list_parent.children = list_children;
+                        $('#chart-parent-container').orgchart({
+                            'data' : list_parent,
                             'visibleLevel': 5,
                             'nodeContent': 'title',
                             //'verticalLevel': 2,
