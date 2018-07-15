@@ -37,6 +37,26 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modal_login" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <center>
+                            <h3>El usuario ingresado no existe</h3>
+                        </center>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
         <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
         <script>
@@ -68,6 +88,8 @@
                             var user = JSON.stringify(data.data);
                             localStorage.setItem("user", user);
                             window.location.replace(url);
+                        }else{
+                            $("#modal_login").modal("show");
                         }
                     }
                 });
