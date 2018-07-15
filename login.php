@@ -61,8 +61,14 @@
                     },
                     success: function (response) {
                         var data = JSON.parse(response);
+                        var server = true;
                         if(data.success){
-                            var url = window.location.origin + '/index.php';
+                            var url = '';
+                            if(server){
+                                url = window.location.origin + '/cobol/index.php';
+                            }else{
+                                url = window.location.origin + '/index.php';
+                            }
                             window.location.replace(url);
                         }
                     }
