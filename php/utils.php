@@ -45,8 +45,8 @@
                     if((int)$pos === 0){
                         $pos_children = strpos($jobs["value"], "ADD(");
                         if($pos_children !== ""){
-                            $value = substr($jobs["value"],$pos_children + 4,strlen($jobs["value"]));
-                            $pos_second = strpos($value, ".");
+                            $value_ch = substr($jobs["value"],$pos_children + 4,strlen($jobs["value"]));
+                            $pos_second = strpos($value_ch, ".");
                             if($pos_second !== ""){
                                 $value_children = substr($value,0,$pos_second);
                                 $list["children"][] = $value_children;

@@ -63,8 +63,10 @@
             </section>
         </header>
         <section id="buscador">
+            <h3>LISTA DE PREDECESORES</h3>
             <div id="chart-parent-container"></div>
             <br/>
+            <h3>LISTA DE SUCESORES</h3>
             <div id="chart-container"></div>
         </section>
         <footer>
@@ -95,7 +97,7 @@
                         list.children = list_children;
                         $('#chart-container').orgchart({
                             'data' : list,
-                            'visibleLevel': 5,
+                            'visibleLevel': 3,
                             'nodeContent': 'title',
                             //'verticalLevel': 2,
                             'exportButton': true,
@@ -114,7 +116,7 @@
                         list_parent.children = list_children;
                         $('#chart-parent-container').orgchart({
                             'data' : list_parent,
-                            'visibleLevel': 5,
+                            'visibleLevel': 3,
                             'nodeContent': 'title',
                             //'verticalLevel': 2,
                             'exportButton': true,

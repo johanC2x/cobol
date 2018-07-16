@@ -360,7 +360,7 @@ CON JOB EN EL
                     $("#table").hide();
                 }
             }else{
-                $("#msg").html("Es necesario seleccionar una opción");
+                $("#msg").html("Es necesario escribir en la caja de texto y seleccionar una opción");
                 $("#table").hide();
             }
         }

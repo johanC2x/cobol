@@ -1,0 +1,109 @@
+//VVPP1006 PROC
+//*
+//    INCLUDE MEMBER=SIENVJUL
+//*
+//****CHANGE HISTORY:**************************************************C
+//*DDMMYY NAME               REASON FOR CHANGE                        *C
+//*------ ------------------ -----------------------------------------*C
+//*191210 NOELIA BENAVENTE   CONVERSION ARCHIVO AMHB                  *C
+//*===================================================================*C
+//* SPECIAL INSTRUCTIONS:    NONE: SEE COMMENTARY FOR EACH STEP.      *C
+//*===================================================================*C
+//**PROC DESCRIPTION:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//*  STEP001  EXEC PROC=GNPDBR14   DELETE SEQUENTIAL FILES             *
+//*  STEP002  EXEC PGM=BCVVMP05    CONVERSION ARCHIVO AMHB SEGMENTO 1  *
+//*  STEP003  EXEC PGM=BCVVMP05    CONVERSION ARCHIVO AMHB SEGMENTO 2  *
+//*  STEP004  EXEC PROC=GNPDSORT   COMBINA SEGMENTOS 1 Y 2 EN UNO AMHB *
+//*  STEP005  EXEC PROC=GNPDBR14   DELETE TEMPORAL FILES               *
+//*===================================================================*C
+//***STEP DESCRIPTION:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//STEP001  EXEC PROC=GNPDBR14,COND=(0,NE)    DELETE SEQUENTIAL FILES
+//*                                          RESTARTABLE: YES
+//DD01     DD  DSN=&HIQSD..VC.VV.&P.&STK9..SQ.AMHB25
+//*
+//***STEP DESCRIPTION:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//STEP002  EXEC  PGM=BCVVMP06,       CONVERSION ARCHIVO AMHB SEGMENTO 1
+//         COND=(0,NE)               RESTARTABLE:YES
+//STEPLIB  DD DSN=ENDVC.CORPORAT.VPLUS2.LOADTP,DISP=SHR                 00899014
+//         DD DSN=ENDVC.BCP.VPLUS2.LOADBA,DISP=SHR                      00899014
+//         DD DSN=ENDVC.CORPORAT.VPLUS2.LOADBA,DISP=SHR                 00899014
+//         DD DSN=ENDVP.CORPORAT.VPLUS2.LOADTP,DISP=SHR                 00899014
+//         DD DSN=ENDVP.BCP.VPLUS2.LOADBA,DISP=SHR                      00899014
+//         DD DSN=ENDVP.CORPORAT.VPLUS2.LOADBA,DISP=SHR                 00899014
+//         DD DSN=ENDVC.BCP.LOADBA,DISP=SHR                             00899014
+//         DD DSN=ENDVC.CORPORAT.LOADBA,DISP=SHR                        00899014
+//         DD DSN=ENDVP.BCP.LOADBA,DISP=SHR                             00899014
+//         DD DSN=ENDVP.CORPORAT.LOADBA,DISP=SHR                        00899014
+//*
+//SYSPRINT DD  SYSOUT=P
+//SYSOUD   DD  SYSOUT=P
+//SYSUDUMP DD  SYSOUT=P
+//SYSDBOUT DD  SYSOUT=P
+//SYSOUT   DD  SYSOUT=P
+//*
+//AMHB     DD  DSN=&HIQVO..VC.VV.&P.&STK3..AMHB.V,
+//             DISP=SHR
+//AMCR     DD  DSN=&HIQVO..VC.VV.&P.&STK9..AMCR.V,
+//             DISP=SHR
+//OAMHB25A DD  DSN=&HIQSD..VC.VV.&P.&STK9..SQ.AMHB125,
+//             DISP=(NEW,CATLG,DELETE),UNIT=SYSDA,
+//             SPACE=(CYL,(1500,900),RLSE),DATACLAS=DCPRODGS,
+//             DCB=(RECFM=FB,LRECL=2700,BLKSIZE=0)
+//*
+//***STEP DESCRIPTION:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//STEP003  EXEC  PGM=BCVVMP05,       CONVERSION ARCHIVO AMHB SEGMENTO 2
+//         COND=(0,NE)               RESTARTABLE:YES
+//STEPLIB  DD DSN=ENDVC.CORPORAT.VPLUS2.LOADTP,DISP=SHR                 00899014
+//         DD DSN=ENDVC.BCP.VPLUS2.LOADBA,DISP=SHR                      00899014
+//         DD DSN=ENDVC.CORPORAT.VPLUS2.LOADBA,DISP=SHR                 00899014
+//         DD DSN=ENDVP.CORPORAT.VPLUS2.LOADTP,DISP=SHR                 00899014
+//         DD DSN=ENDVP.BCP.VPLUS2.LOADBA,DISP=SHR                      00899014
+//         DD DSN=ENDVP.CORPORAT.VPLUS2.LOADBA,DISP=SHR                 00899014
+//         DD DSN=ENDVC.BCP.LOADBA,DISP=SHR                             00899014
+//         DD DSN=ENDVC.CORPORAT.LOADBA,DISP=SHR                        00899014
+//         DD DSN=ENDVP.BCP.LOADBA,DISP=SHR                             00899014
+//         DD DSN=ENDVP.CORPORAT.LOADBA,DISP=SHR                        00899014
+//*
+//SYSPRINT DD  SYSOUT=P
+//SYSOUD   DD  SYSOUT=P
+//SYSUDUMP DD  SYSOUT=P
+//SYSDBOUT DD  SYSOUT=P
+//SYSOUT   DD  SYSOUT=P
+//*
+//AMHB     DD  DSN=&HIQVO..VC.VV.&P.&STK4..AMHB.V,
+//             DISP=SHR
+//AMCR     DD  DSN=&HIQVO..VC.VV.&P.&STK9..AMCR.V,
+//             DISP=SHR
+//OAMHB25A DD  DSN=&HIQSD..VC.VV.&P.&STK9..SQ.AMHB225,
+//             DISP=(NEW,CATLG,DELETE),UNIT=SYSDA,
+//             SPACE=(CYL,(1500,900),RLSE),DATACLAS=DCPRODGS,
+//             DCB=(RECFM=FB,LRECL=2700,BLKSIZE=0)
+//*
+//***STEP DESCRIPTION:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//STEP004  EXEC  PROC=GNPDSORT,      COMBINA SEGMENTOS 1 Y 2 EN UNO AMHB
+//             COND=(0,NE),          RESTARTABLE:NO, RESTART AT STEP001
+//             DISK=&DISK,
+//             PSRTWK=30,
+//             SSRTWK=50,
+//             DOUT=&DOUT,
+//             SOUT=&SOUT,
+//             PARMLB1=&PARMLB1,
+//             MEMBER1=VVU001SR
+//*
+//SORTIN   DD  DSN=&HIQSD..VC.VV.&P.&STK9..SQ.AMHB125,
+//             DISP=SHR
+//         DD  DSN=&HIQSD..VC.VV.&P.&STK9..SQ.AMHB225,
+//             DISP=SHR
+//*
+//SORTOUT  DD  DSN=&HIQSD..VC.VV.&P.&STK9..SQ.AMHB25,
+//             DISP=(NEW,CATLG,DELETE),UNIT=SYSDA,
+//             SPACE=(CYL,(1500,900),RLSE),DATACLAS=DCPRODGS,
+//             DCB=(RECFM=FB,LRECL=2700,BLKSIZE=0)
+//*
+//***STEP DESCRIPTION:<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//STEP005  EXEC PROC=GNPDBR14,COND=(0,NE)    DELETE TEMPORAL FILES
+//*                                          RESTARTABLE: YES
+//DD01     DD  DSN=&HIQSD..VC.VV.&P.&STK9..SQ.AMHB125
+//DD02     DD  DSN=&HIQSD..VC.VV.&P.&STK9..SQ.AMHB225
+//*
+

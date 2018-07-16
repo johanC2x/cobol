@@ -1,0 +1,16 @@
+//JP1VUW08 JOB (BCP,SIM,S),'CONVERSION AMHB',CLASS=S,MSGCLASS=P
+//*
+//PROCS JCLLIB ORDER=(ENDVP.BCP.PROCLIB,
+//             ENDVP.CORPORAT.PROCLIB)
+//*
+//     INCLUDE MEMBER=SIENVJVV
+//*
+//* CONVERSION ARCHIVO AMHB                                            *
+//*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//VVPP1006   EXEC   VVPP1006
+//*
+//* CONVERSION ARCHIVO ATPT Y ATGT                                     *
+//*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//VVPP105A   EXEC   VVPP105A
+//*
+
