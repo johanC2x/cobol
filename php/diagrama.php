@@ -18,20 +18,35 @@
         if(sizeof($list["children"]) > 0){
             foreach($list["children"] as $key => $children){
                 $list_children = obtenerListaChildren($children);
+                $last_pos = sizeof($list_children["children"]) - 1;
+                unset($list_children["children"][(int)$last_pos]);
                 if(!empty($list_children)){
-                    $list["children"][$key] = array(
-                        "name" => "JOB",
-                        "title" => $children,
-                        "children" => $list_children["children"]
-                    );
-                    foreach($list_children["children"] as $key_sec => $children_sec){
-                        $list_children_sec = obtenerListaChildren($children_sec["title"]);
-                        if(!empty($list_children_sec)){
-                            $list["children"][$key]["children"][$key_sec] = array(
-                                "name" => "JOB",
-                                "title" => $children_sec["title"],
-                                "children" => $list_children_sec["children"]
-                            );
+                    if($value === $children){
+                        foreach($list_children["children"] as $key_sec => $children_sec){
+                            $list_children_sec = obtenerListaChildren($children_sec["title"]);
+                            if(!empty($list_children_sec)){
+                                $list["children"][$key_sec] = array(
+                                    "name" => "JOB",
+                                    "title" => $children_sec["title"],
+                                    "children" => $list_children_sec["children"]
+                                );
+                            }
+                        }
+                    }else{
+                        $list["children"][$key] = array(
+                            "name" => "JOB",
+                            "title" => $children,
+                            "children" => $list_children["children"]
+                        );
+                        foreach($list_children["children"] as $key_sec => $children_sec){
+                            $list_children_sec = obtenerListaChildren($children_sec["title"]);
+                            if(!empty($list_children_sec)){
+                                $list["children"][$key]["children"][$key_sec] = array(
+                                    "name" => "JOB",
+                                    "title" => $children_sec["title"],
+                                    "children" => $list_children_sec["children"]
+                                );
+                            }
                         }
                     }
                 }

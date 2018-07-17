@@ -316,6 +316,71 @@
                 echo json_encode(["success" => false]);
             }
             break;
+        //OPCIONES DE USUARIO
+        case 9:
+            $list_usuarios = obtenerUsuarios();
+            if(sizeof($list_usuarios) > 0){
+                echo json_encode(["success" => true,"data" => $list_usuarios]);
+            }else{
+                echo json_encode(["success" => false]);
+            }
+            break;
+        case 10:
+            $user = (isset($_POST["user"]) && !empty($_POST["user"])) ? strtoupper($_POST["user"]) : false;
+            $pass = (isset($_POST["pass"]) && !empty($_POST["pass"])) ? strtoupper($_POST["pass"]) : false;
+            if($user && $pass){
+                $valid_user = validarUsuario($user);
+                if(empty($valid_user)){
+                    $response = insertarUsuario($user,$pass);
+                    if(!empty($response)){
+                        echo json_encode(["success" => true]);
+                    }else{
+                        echo json_encode(["success" => false]);
+                    }
+                }else{
+                    echo json_encode(["success" => false,"msg" => "El usuario ingresado existe"]);
+                }
+            }
+            break;
+        case 11:
+            $id = (isset($_POST["id"]) && !empty($_POST["id"])) ? strtoupper($_POST["id"]) : false;
+            $user = (isset($_POST["user"]) && !empty($_POST["user"])) ? strtoupper($_POST["user"]) : false;
+            $pass = (isset($_POST["pass"]) && !empty($_POST["pass"])) ? strtoupper($_POST["pass"]) : false;
+            if($user && $pass){
+                $response = actualizarUsuario($user,$pass,$id);
+                if(!empty($response)){
+                    echo json_encode(["success" => true]);
+                }else{
+                    echo json_encode(["success" => false]);
+                }
+            }
+            break;
+        case 12:
+            $id = (isset($_POST["id"]) && !empty($_POST["id"])) ? strtoupper($_POST["id"]) : false;
+            if($id){
+                $user = obtenerPorId($id);
+                if(!empty($user)){
+                    echo json_encode(["success" => true,"data" => $user]);
+                }else{
+                    echo json_encode(["success" => false]);
+                }
+            }else{
+                echo json_encode(["success" => false]);
+            }
+            break;
+        case 13:
+            $id = (isset($_POST["id"]) && !empty($_POST["id"])) ? strtoupper($_POST["id"]) : false;
+            if($id){
+                $user = eliminarUsuario($id);
+                if(!empty($user)){
+                    echo json_encode(["success" => true,"data" => $user]);
+                }else{
+                    echo json_encode(["success" => false]);
+                }
+            }else{
+                echo json_encode(["success" => false]);
+            }
+            break;
     }
 
 ?>

@@ -2,6 +2,87 @@
 
     require_once('../util/coneccion.php');
 
+    function obtenerUsuarios(){
+        $users = [];
+        $sql = "SELECT * FROM user";
+        $conexion = new Conexion();
+        $cn = $conexion->Conectarse();
+        $result = mysql_query($sql,$cn);
+        $rows = mysql_num_rows($result);
+        if(!empty($rows)){
+            while ($user = mysql_fetch_array($result)) {
+                $users[] = array(
+                    "id" => $user["id"],
+                    "user" => $user["user"],
+                    "pass" => $user["pass"]
+                );
+            }
+        }
+        return $users;
+    }
+
+    function obtenerPorId($id){
+        $obj = [];
+        $sql = "SELECT * FROM user where id = $id"; 
+        $conexion = new Conexion();
+        $cn = $conexion->Conectarse();
+        $result = mysql_query($sql,$cn);
+        $rows = mysql_num_rows($result);
+        if(!empty($rows)){
+            while ($user = mysql_fetch_array($result)) {
+                $obj = array(
+                    "id" => $user["id"],
+                    "user" => $user["user"],
+                    "pass" => $user["pass"]
+                );
+            }
+        }
+        return $obj;
+    }
+
+    function validarUsuario($user){
+        $obj = [];
+        $sql = "SELECT * FROM user where user = '$user'";
+        $conexion = new Conexion();
+        $cn = $conexion->Conectarse();
+        $result = mysql_query($sql,$cn);
+        $rows = mysql_num_rows($result);
+        if(!empty($rows)){
+            while ($user = mysql_fetch_array($result)) {
+                $obj = array(
+                    "id" => $user["id"],
+                    "user" => $user["user"],
+                    "pass" => $user["pass"]
+                );
+            }
+        }
+        return $obj;
+    }
+
+    function insertarUsuario($user,$pass){
+        $sql = "INSERT INTO user(user,pass) VALUES ('$user','$pass')";
+        $conexion = new Conexion();
+        $cn = $conexion->Conectarse();
+        $result = mysql_query($sql,$cn);
+        return $result;
+    }
+
+    function actualizarUsuario($user,$pass,$id){
+        $sql = "UPDATE user SET user = '$user' , pass = '$pass' where id = $id";
+        $conexion = new Conexion();
+        $cn = $conexion->Conectarse();
+        $result = mysql_query($sql,$cn);
+        return $result;
+    }
+
+    function eliminarUsuario($id){
+        $sql = "DELETE FROM user where id = $id";
+        $conexion = new Conexion();
+        $cn = $conexion->Conectarse();
+        $result = mysql_query($sql,$cn);
+        return $result;
+    }
+
     function obtenerUsuario($user,$pass){
         $obj_user = [];
         $sql = "SELECT * FROM user where user = '$user' and pass = '$pass'";
