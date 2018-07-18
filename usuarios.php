@@ -156,7 +156,24 @@
                         insertarUsuario();
                     }
                 });
+
+                //CERRAR SESIÓN
+                if(document.getElementById("btn_logout") !== null){
+                    document.getElementById("btn_logout").onclick = function () {
+                        logOut();
+                    };
+                }
+
             });
+
+            function logOut(){
+                localStorage.removeItem("user");
+                var path = (window.location.origin.search("54") !== undefined && window.location.origin.search("54") !== -1) ? "/cobol" : "/";
+                var url = window.location.origin + path + '/login.php';
+                if(localStorage.getItem("user") === undefined || localStorage.getItem("user") === '' || localStorage.getItem("user") === null){
+                    window.location.replace(url);
+                }
+            }
 
             function eliminarUsuario(){
                 var id = $("#id_delete").val();

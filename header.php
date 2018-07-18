@@ -59,7 +59,7 @@ CON JOB EN EL
                                 </a>
                             </li>
                             <li>
-                                <a href="usuarios.php">
+                                <a id="menu_usuario" href="usuarios.php">
                                     Usuarios
                                 </a>
                             </li>

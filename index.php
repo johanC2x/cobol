@@ -187,6 +187,13 @@
             var url = window.location.origin + path + '/login.php';
             if(localStorage.getItem("user") === undefined || localStorage.getItem("user") === '' || localStorage.getItem("user") === null){
                 window.location.replace(url);
+            }else{
+                var user = JSON.parse(localStorage.getItem("user"));
+                if(user.id_perfil === 'adm'){
+                    $("#menu_usuario").show();
+                }else{
+                    $("#menu_usuario").hide();
+                }
             }
 
             //OBTENER LISTADO DE JOBS
