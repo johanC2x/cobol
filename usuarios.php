@@ -18,6 +18,14 @@
                                             <label>Contraseña</label>
                                             <input type="password" name="pass" id="pass" class="form-control"/>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Perfil</label>
+                                            <select name="id_perfil" id="id_perfil" class="form-control">
+                                                <option value="">Seleccionar</option>
+                                                <option value="adm">Administrador</option>
+                                                <option value="col">Colaborador</option>
+                                            </select>
+                                        </div>
                                     </fieldset>
                                     <button id="btn_save" type="button" class="btn btn-primary" style="float: right;">
                                         Crear Usuario
@@ -37,6 +45,7 @@
                                     <th><center>ID</center></th>
                                     <th><center>USUARIO</center></th>
                                     <th><center>CONTRASEÑA</center></th>
+                                    <th><center>PERFIL</center></th>
                                     <th colspan="2"><center>ACCIONES</center></th>
                                 </tr>
                             </thead>
@@ -175,6 +184,7 @@
                 var id = $("#id").val();
                 var user = $("#user").val();
                 var pass = $("#pass").val();
+                var id_perfil = $("#id_perfil").val();
                 $.ajax({
                     type: "POST",
                     url:"./php/funciones.php",
@@ -182,7 +192,8 @@
                         op : 11,
                         id : id,
                         user : user,
-                        pass : pass
+                        pass : pass,
+                        id_perfil : id_perfil
                     },
                     success: function (response) {
                         var data = JSON.parse(response);
@@ -200,7 +211,8 @@
             function insertarUsuario(){
                 var user = $("#user").val();
                 var pass = $("#pass").val();
-                if(user === '' || pass === ''){
+                var id_perfil = $("#id_perfil").val();
+                if(user === '' || pass === '' || id_perfil === ''){
                     setTimeout(function() {
                         $(".error_user").css("display", "block").fadeOut(3000);
                     });
@@ -211,7 +223,8 @@
                         data: {
                             op : 10,
                             user : user,
-                            pass : pass
+                            pass : pass,
+                            id_perfil : id_perfil
                         },
                         success: function (response) {
                             var data = JSON.parse(response);
@@ -245,6 +258,7 @@
                                 $("#user").val(data.data.user);
                                 $("#pass").val(data.data.pass);
                                 $("#id").val(data.data.id);
+                                $("#id_perfil").val(data.data.id_perfil.toLowerCase());
                             }else if(action === 'delete'){
                                 $("#id_delete").val(data.data.id);
                                 $("#modal_delete").modal("show");
@@ -270,10 +284,12 @@
                         if(data.success){
                             if(data.data.length > 0){
                                 for(var i = 0;i < data.data.length;i++){
+                                    var perfil = (data.data[i].id_perfil.toLowerCase() === 'adm') ? "Administrador" : "Colaborador";
                                     tbody += `<tr>
                                                 <td><center>`+ data.data[i].id +`</center></td>
                                                 <td><center>`+ data.data[i].user +`</center></td>
                                                 <td><center>`+ data.data[i].pass +`</center></td>
+                                                <td><center>`+ perfil +`</center></td>
                                                 <td><a href="javascript:void(0);" onclick="obtenerPorId(`+ data.data[i].id +`,'update');" >Editar</a></td>
                                                 <td><a href="javascript:void(0);" onclick="obtenerPorId(`+ data.data[i].id +`,'delete');" >Eliminar</a></td>
                                             </tr>`;

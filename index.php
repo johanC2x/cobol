@@ -243,13 +243,6 @@
                                             <td><center>`+ title +`</center></td>
                                             <td>
                                                 <center>
-                                                    <a href="javascript:void(0);" onclick="obtenerListadoPorJob('`+ title +`');" >
-                                                        ver
-                                                    </a>
-                                                </center>
-                                            </td>
-                                            <td>
-                                                <center>
                                                     <a href=`+ path +`/diagrama.php?value=`+ title +` target="_blank">
                                                         ver diagrama
                                                     </a>
@@ -393,13 +386,6 @@
                                             <td><center>`+ ctl +`</center></td>
                                             <td>
                                                 <center>
-                                                    <a href="javascript:void(0);" onclick="obtenerListadoPorJob('`+ title +`');" >
-                                                        ver
-                                                    </a>
-                                                </center>
-                                            </td>
-                                            <td>
-                                                <center>
                                                     <a href="`+ path +`/diagrama.php?value=`+ title +`" target="_blank">
                                                         ver diagrama
                                                     </a>
@@ -448,13 +434,6 @@
                                 tbody += `<tr>
                                             <td><center>`+ (i + 1) +`</center></td>
                                             <td><center>`+ title +`</center></td>
-                                            <td>
-                                                <center>
-                                                    <a href="javascript:void(0);" onclick="obtenerListadoPorJob('`+ title +`');" >
-                                                        ver
-                                                    </a>
-                                                </center>
-                                            </td>
                                             <td>
                                                 <center>
                                                     <a href="`+ path +`/diagrama.php?value=`+ title +`" target="_blank">
@@ -506,13 +485,6 @@
                                             <td><center>`+ (i + 1) +`</center></td>
                                             <td><center>`+ title +`</center></td>
                                             <td><center>`+ name_proc +`</center></td>
-                                            <td>
-                                                <center>
-                                                    <a href="javascript:void(0);" onclick="obtenerListadoPorJob('`+ title +`');" >
-                                                        ver
-                                                    </a>
-                                                </center>
-                                            </td>
                                             <td>
                                                 <center>
                                                     <a href="`+ path +`/diagrama.php?value=`+ title +`" target="_blank">

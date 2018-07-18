@@ -14,7 +14,8 @@
                 $users[] = array(
                     "id" => $user["id"],
                     "user" => $user["user"],
-                    "pass" => $user["pass"]
+                    "pass" => $user["pass"],
+                    "id_perfil" => $user["id_perfil"]
                 );
             }
         }
@@ -33,7 +34,8 @@
                 $obj = array(
                     "id" => $user["id"],
                     "user" => $user["user"],
-                    "pass" => $user["pass"]
+                    "pass" => $user["pass"],
+                    "id_perfil" => $user["id_perfil"]
                 );
             }
         }
@@ -52,23 +54,24 @@
                 $obj = array(
                     "id" => $user["id"],
                     "user" => $user["user"],
-                    "pass" => $user["pass"]
+                    "pass" => $user["pass"],
+                    "id_perfil" => $user["id_perfil"]
                 );
             }
         }
         return $obj;
     }
 
-    function insertarUsuario($user,$pass){
-        $sql = "INSERT INTO user(user,pass) VALUES ('$user','$pass')";
+    function insertarUsuario($user,$pass,$id_perfil){
+        $sql = "INSERT INTO user(user,pass,id_perfil) VALUES ('$user','$pass','$id_perfil')";
         $conexion = new Conexion();
         $cn = $conexion->Conectarse();
         $result = mysql_query($sql,$cn);
         return $result;
     }
 
-    function actualizarUsuario($user,$pass,$id){
-        $sql = "UPDATE user SET user = '$user' , pass = '$pass' where id = $id";
+    function actualizarUsuario($user,$pass,$id_perfil,$id){
+        $sql = "UPDATE user SET user = '$user' , pass = '$pass' , id_perfil = '$id_perfil' where id = $id";
         $conexion = new Conexion();
         $cn = $conexion->Conectarse();
         $result = mysql_query($sql,$cn);
@@ -95,7 +98,8 @@
                 $obj_user = array(
                     "id" => $user["id"],
                     "user" => $user["user"],
-                    "pass" => $user["pass"]
+                    "pass" => $user["pass"],
+                    "id_perfil" => $user["id_perfil"]
                 );
             }
         }

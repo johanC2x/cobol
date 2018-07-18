@@ -328,10 +328,11 @@
         case 10:
             $user = (isset($_POST["user"]) && !empty($_POST["user"])) ? strtoupper($_POST["user"]) : false;
             $pass = (isset($_POST["pass"]) && !empty($_POST["pass"])) ? strtoupper($_POST["pass"]) : false;
-            if($user && $pass){
+            $id_perfil = (isset($_POST["id_perfil"]) && !empty($_POST["id_perfil"])) ? strtoupper($_POST["id_perfil"]) : false;
+            if($user && $pass && $id_perfil){
                 $valid_user = validarUsuario($user);
                 if(empty($valid_user)){
-                    $response = insertarUsuario($user,$pass);
+                    $response = insertarUsuario($user,$pass,$id_perfil);
                     if(!empty($response)){
                         echo json_encode(["success" => true]);
                     }else{
@@ -346,8 +347,9 @@
             $id = (isset($_POST["id"]) && !empty($_POST["id"])) ? strtoupper($_POST["id"]) : false;
             $user = (isset($_POST["user"]) && !empty($_POST["user"])) ? strtoupper($_POST["user"]) : false;
             $pass = (isset($_POST["pass"]) && !empty($_POST["pass"])) ? strtoupper($_POST["pass"]) : false;
-            if($user && $pass){
-                $response = actualizarUsuario($user,$pass,$id);
+            $id_perfil = (isset($_POST["id_perfil"]) && !empty($_POST["id_perfil"])) ? strtoupper($_POST["id_perfil"]) : false;
+            if($user && $pass && $id_perfil && $id){
+                $response = actualizarUsuario($user,$pass,$id_perfil,$id);
                 if(!empty($response)){
                     echo json_encode(["success" => true]);
                 }else{
